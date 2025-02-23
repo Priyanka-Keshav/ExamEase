@@ -1,72 +1,35 @@
-import React, { useContext } from "react";
-import { Category, Difficulty } from "./Context";
-import { Link } from "react-router-dom";
-function Home() {
-  const { category, setCategory } = useContext(Category);
-  const { difficulty, setDifficulty } = useContext(Difficulty);
-
-  const select_category = (e) => {
-    const selectedCategory = parseInt(e.target.value, 10); // Convert to integer
-    console.log(selectedCategory);
-    setCategory(selectedCategory);
+import React from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useNavigate } from "react-router-dom";
+const Home = () => {
+  const navigate = useNavigate();
+  const move_options = () => {
+    navigate("/options");
   };
-  const select_difficulty = (e) => {
-    console.log(e.target.value);
-    setDifficulty(e.target.value);
-  };
-
   return (
-    <>
-      {" "}
-      <div className="flex justify-center items-center">
-        <h1 className="text-3xl font-bold underline">Quiz app</h1>
-      </div>
-      <div className="flex justify-center items-center mt-8">
-        {" "}
-        <select
-          className="select select-info w-full max-w-xs"
-          onChange={select_category}
-        >
-          <option disabled selected>
-            Select Category
-          </option>
+    <div className="flex flex-col items-center justify-center text-center p-5 min-h-screen bg-gradient-to-b from-[#0b0f19] to-[#1a237e] text-white">
+      <header className="mb-5">
+        <DotLottieReact
+          src="https://lottie.host/bfe4040f-91cc-4978-a160-dd4f49efd696/CuEmncB6II.lottie"
+          loop
+          autoplay
+          className="h-[250px]"
+        />
+        <h1 className="text-5xl font-extrabold mt-5 drop-shadow-lg">
+          Hey Champ! Welcome to <span className="text-blue-400">ExamEase</span>
+        </h1>
+      </header>
 
-          <option value="11">Entertainment</option>
-          <option value="21">Sports</option>
-          <option value="12">Music</option>
-          <option value="17">Science</option>
-          <option value="18">Computer Science</option>
-          <option value="22">Geography</option>
-          <option value="23">History</option>
-          <option value="24">Politics</option>
-          <option value="25">Art</option>
-          <option value="27">Animals</option>
-          <option value="28">Vehicles</option>
-        </select>
-      </div>
-      <div className="flex justify-center items-center mt-8">
-        {" "}
-        <select
-          className="select select-info w-full max-w-xs"
-          onChange={select_difficulty}
+      <main className="flex flex-col items-center">
+        <button
+          onClick={move_options}
+          className="mt-5 px-8 py-3 text-2xl font-semibold rounded-xl text-white bg-blue-500 shadow-lg shadow-blue-500/50 hover:bg-blue-600 transition-transform transform hover:scale-105 duration-300"
         >
-          <option disabled selected>
-            Select difficulty
-          </option>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-      </div>
-      <div className="flex justify-center items-center mt-8">
-        {" "}
-        <Link to="/api">
-          {" "}
-          <button className="btn btn-outline btn-info">Submit</button>
-        </Link>
-      </div>
-    </>
+          Let’s Get Started!
+        </button>
+      </main>
+    </div>
   );
-}
+};
 
 export default Home;

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-function Question({ question, array, correct, getting_value }) {
+function Question({ question, array, correct, getting_value, updateScore }) {
   const [shuffledOptions, setShuffledOptions] = useState([]);
   const [activeButton, setActiveButton] = useState(null);
-  let [count, setCount] = useState(1);
+  const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
+
   function shuffleArray(value, array_2) {
     const merge = [value, ...array_2];
 
@@ -23,16 +24,11 @@ function Question({ question, array, correct, getting_value }) {
 
   const set_index = (index, value) => {
     setActiveButton(index);
+    setIsAnswerSubmitted(true);
     console.log(index);
     getting_value(value);
     if (value === correct) {
-      console.log("right");
-      setCount((prevCount) => {
-        prevCount + 1;
-        console.log(prevCount);
-      });
-    } else {
-      console.log("wrong");
+      updateScore();
     }
   };
 
@@ -51,10 +47,17 @@ function Question({ question, array, correct, getting_value }) {
             className="bg-slate-100 text-black w-3/4 mb-2 h-16 rounded-box"
             onClick={() => set_index(index, option)} // Handle click and pass index
             style={{
-              backgroundColor: activeButton === index ? "gray" : "white", // Change color based on active button
-              color: activeButton === index ? "white" : "black",
+              backgroundColor:
+                isAnswerSubmitted && option === correct
+                  ? "green"
+                  : activeButton === index
+                  ? option === correct
+                    ? "green"
+                    : "red"
+                  : "white",
+              color: "black",
             }}
-            disabled={activeButton != null}
+            disabled={isAnswerSubmitted}
           >
             {option}
           </button>
