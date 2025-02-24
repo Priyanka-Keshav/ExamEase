@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Category, Difficulty } from "./Context";
 import { Link } from "react-router-dom";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
@@ -6,15 +6,25 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 function Options() {
   const { category, setCategory } = useContext(Category);
   const { difficulty, setDifficulty } = useContext(Difficulty);
+  const [alert, setAlert] = useState("");
 
   const select_category = (e) => {
     const selectedCategory = parseInt(e.target.value, 10);
     console.log(selectedCategory);
     setCategory(selectedCategory);
   };
+
   const select_difficulty = (e) => {
     console.log(e.target.value);
     setDifficulty(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    if (!category || !difficulty) {
+      e.preventDefault();
+      setAlert("Oops! Please select both category and difficulty 🥺💕");
+      setTimeout(() => setAlert(""), 3000); // Hide alert after 3 sec
+    }
   };
 
   return (
@@ -30,6 +40,11 @@ function Options() {
           Ace Your Exams with <span className="text-blue-400">Ease</span>
         </h1>
       </div>
+      {alert && (
+        <div className="bg-red-500 text-white text-lg px-4 py-2 rounded-lg shadow-lg mb-4">
+          {alert}
+        </div>
+      )}
       <div className="flex flex-col items-center space-y-6">
         <select
           className="block appearance-none w-full bg-blue-900 border border-blue-400 text-white py-3 px-4 pr-8 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -49,7 +64,7 @@ function Options() {
           <option value="24">Politics</option>
           <option value="25">Art</option>
           <option value="27">Biology</option>
-          <option value="19">Mathematic</option>
+          <option value="19">Mathematics</option>
         </select>
         <select
           className="block appearance-none w-full bg-blue-900 border border-blue-400 text-white py-3 px-4 pr-8 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -65,7 +80,7 @@ function Options() {
         </select>
       </div>
       <div className="flex justify-center items-center mt-8">
-        <Link to="/api">
+        <Link to="/api" onClick={handleSubmit}>
           <button className="px-8 py-3 text-2xl font-semibold rounded-xl text-white bg-blue-500 shadow-lg shadow-blue-500/50 hover:bg-blue-600 transition-transform transform hover:scale-105 duration-300">
             Submit
           </button>
