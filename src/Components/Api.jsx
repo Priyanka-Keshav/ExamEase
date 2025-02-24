@@ -18,9 +18,10 @@ function Api() {
   const { User_ans, setUser } = useContext(user_ans);
   const [count, setCount] = useState(0);
   const { ans, setAns } = useContext(answers);
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(10);
   const { Final_score, setFinal_score } = useContext(final_score);
   const { Attempted, setAttempted } = useContext(attempted);
+  const [isAnswerSelected, setIsAnswerSelected] = useState(false); // New state to track answer selection
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +45,7 @@ function Api() {
   }, [category, difficulty]);
 
   useEffect(() => {
-    if (show && current_index < questions.length) {
+    if (show && current_index < questions.length && !isAnswerSelected) {
       const timerId = setTimeout(() => {
         setTimer((prevTimer) => prevTimer - 1);
         if (timer === 0) {
@@ -54,13 +55,14 @@ function Api() {
 
       return () => clearTimeout(timerId);
     }
-  }, [show, current_index, timer]);
+  }, [show, current_index, timer, isAnswerSelected]);
 
   const index_setting = () => {
     if (current_index < questions.length) {
       setAns((prevAns) => [...prevAns, questions[current_index].correct_answer]);
       setCurrent(current_index + 1);
       setTimer(10);
+      setIsAnswerSelected(false); // Reset answer selection when moving to next question
     } else {
       setShow(false);
       setCurrent(-1);
@@ -69,12 +71,14 @@ function Api() {
 
   const getting = (value) => {
     setUser((prevAnswers) => [...prevAnswers, value]);
+    setIsAnswerSelected(true); // Stop the timer once an answer is selected
   };
 
   const play = () => {
     setShow(true);
     setCurrent(0);
     setTimer(10);
+    setIsAnswerSelected(false);
   };
 
   const updateScore = () => {
