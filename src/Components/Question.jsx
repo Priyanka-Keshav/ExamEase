@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 
 function Question({ question, array, correct, getting_value, updateScore }) {
   const [shuffledOptions, setShuffledOptions] = useState([]);
@@ -25,6 +25,7 @@ function Question({ question, array, correct, getting_value, updateScore }) {
   const set_index = (index, value) => {
     setActiveButton(index);
     setIsAnswerSubmitted(true);
+    console.log(index);
     getting_value(value);
     if (value === correct) {
       updateScore();
@@ -33,21 +34,21 @@ function Question({ question, array, correct, getting_value, updateScore }) {
 
   return (
     <>
-      {/* Enlarged Question Box */}
+      {/* Question Box */}
       <div className="flex justify-center items-center mt-12">
-        <div className="card bg-white rounded-lg shadow-md p-6 w-4/5 sm:w-3/4 lg:w-2/3">
-          <h1 className="text-black text-center text-lg sm:text-xl lg:text-2xl font-semibold">
+        <div className="card bg-white rounded-box p-6 w-11/12 sm:w-3/4 lg:w-2/3 min-h-[80px] md:min-h-[100px] flex items-center justify-center">
+          <h1 className="text-black text-center text-lg md:text-xl lg:text-2xl break-words whitespace-normal">
             {question}
           </h1>
         </div>
       </div>
 
       {/* Answer Buttons */}
-      <div className="flex flex-col items-center mt-6">
+      <div className="flex flex-col items-center mt-4">
         {shuffledOptions.map((option, index) => (
           <button
             key={index}
-            className="bg-slate-100 text-black w-4/5 sm:w-3/4 lg:w-2/3 mb-3 h-16 rounded-lg text-lg font-medium transition-all duration-200 ease-in-out hover:bg-gray-200"
+            className="bg-slate-100 text-black w-11/12 sm:w-3/4 lg:w-2/3 mb-2 h-16 rounded-box text-lg md:text-xl p-4"
             onClick={() => set_index(index, option)}
             style={{
               backgroundColor:
